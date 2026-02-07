@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Be My Valentine</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+/* 📱 Full Mobile Fix */
+@media (max-width: 600px) {
+
+    body {
+        overflow-y: auto;
+        height: auto;
+        padding-bottom: 60px;
+    }
+
+    h1 {
+        font-size: 1.6rem;
+        margin-top: 60px;
+        padding: 0 10px;
+    }
+
+    #message {
+        font-size: 1.4rem;
+        margin-top: 30px;
+    }
+
+    #valentineWish {
+        font-size: 1.2rem;
+    }
+
+    button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        margin: 8px;
+    }
+
+    /* Main photo responsive */
+    #photo {
+        width: 90%;
+        max-width: 260px;
+        margin-top: 20px;
+    }
+
+    /* Garlands shrink and move inward */
+    .garland {
+        width: 60px;
+        opacity: 1;
+    }
+
+    /* Hanging images much smaller */
+    .hanging-img {
+        width: 55px;
+        opacity: 1;
+    }
+
+    /* Left side images */
+    #side1, #side2, #side3 {
+        left: 0 !important;
+    }
+
+    /* Right side images */
+    #side4, #side5, #side6 {
+        right: 0 !important;
+    }
+
+    /* Reposition vertically so they don’t overlap main image */
+    #side1, #side4 { top: 100px !important; }
+    #side2, #side5 { top: 220px !important; }
+    #side3, #side6 { top: 340px !important; }
+
+    /* Hearts smaller */
+    .heart {
+        font-size: 12px !important;
+    }
+}
+    body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        overflow: hidden;
+        background: radial-gradient(circle at top, #ffe6f2, #ff9ac6);
+        font-family: "Segoe Script", cursive;
+        text-align: center;
+        position: relative;
+    }
+
+    .heart {
+        position: fixed;
+        bottom: -20px;
+        color: #ff4d88;
+        opacity: 0.6;
+        font-size: 20px;
+        animation: floatUp 8s linear infinite;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    @keyframes floatUp {
+        0% { transform: translateY(0) scale(1); opacity: 0.8; }
+        100% { transform: translateY(-120vh) scale(1.8); opacity: 0; }
+    }
+
+    h1, #message, #valentineWish {
+        font-family: "Segoe Script", cursive;
+        font-weight: 600;
+        color: #b3005e;
+        text-shadow:
+            0px 2px 2px rgba(255, 255, 255, 0.8),
+            0px 4px 6px rgba(255, 0, 102, 0.25);
+    }
+
+    h1 {
+        font-size: 2.8rem;
+        margin-top: 130px;
+    }
+
+    #message {
+        margin-top: 60px;
+        font-size: 2.4rem;
+        opacity: 0;
+        transition: opacity 1s ease;
+    }
+
+    #valentineWish {
+        margin-top: 15px;
+        font-size: 2rem;
+        opacity: 0;
+        transition: opacity 1s ease;
+    }
+
+    .button-row {
+        margin-top: 25px;
+        z-index: 2;
+        position: relative;
+    }
+
+    button {
+        padding: 15px 35px;
+        font-size: 1.3rem;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        margin: 0 15px;
+        font-weight: bold;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    button:hover {
+        transform: scale(1.08);
+        box-shadow: 0 0 18px rgba(255, 80, 140, 0.8);
+    }
+
+    #yesBtn {
+        background: linear-gradient(135deg, #ff4d88, #ff1a66);
+        color: white;
+    }
+
+    #noBtn {
+        background: #444;
+        color: white;
+    }
+
+    #photo {
+        width: 280px;
+        margin-top: 20px;
+        border-radius: 20px;
+        opacity: 0;
+        transition: opacity 1.2s ease;
+        border: 6px solid #ffe6f2;
+        background: #ffe6f2;
+        box-shadow: 0 0 25px rgba(255, 80, 140, 0.7);
+        z-index: 2;
+        position: relative;
+    }
+
+/* Curved heart garland rope */
+.garland {
+    position: absolute;
+    width: 180px;
+    height: 100vh;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+}
+
+/* Heart rope path */
+.garland svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Hanging images */
+.hanging-img {
+    position: absolute;
+    width: 108px;
+    border-radius: 15px;
+    opacity: 0.9;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transform-origin: top center;
+    animation: swing 3.5s ease-in-out infinite alternate;
+    z-index: 2;
+    display: none; /* hidden until YES */
+}
+
+/* Swing animation */
+@keyframes swing {
+    0% { transform: rotate(-4deg); }
+    100% { transform: rotate(4deg); }
+}
+
+
+</style>
+</head>
+
+<body>
+
+<audio id="bgMusic">
+    <source src="lover.MP3" type="audio/mpeg">
+</audio>
+
+<!-- LEFT HEART GARLAND -->
+<div id="garlandLeft" class="garland" style="left: 0;">
+    <svg viewBox="0 0 100 800">
+        <path d="M50 0 Q10 150 50 300 Q90 450 50 600 Q10 750 50 900"
+              stroke="#ff4d88" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </svg>
+</div>
+
+<!-- RIGHT HEART GARLAND -->
+<div id="garlandRight" class="garland" style="right: 0;">
+    <svg viewBox="0 0 100 800">
+        <path d="M50 0 Q90 150 50 300 Q10 450 50 600 Q90 750 50 900"
+              stroke="#ff4d88" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </svg>
+</div>
+
+<!-- LEFT SIDE IMAGES -->
+<img id="side1" class="hanging-img" style="left: 20px; top: 140px;" src="1.JPEG">
+<img id="side2" class="hanging-img" style="left: 20px; top: 340px;" src="10.JPEG">
+<img id="side3" class="hanging-img" style="left: 20px; top: 540px;" src="5.JPEG">
+
+<!-- RIGHT SIDE IMAGES -->
+<img id="side4" class="hanging-img" style="right: 20px; top: 140px;" src="8.JPEG">
+<img id="side5" class="hanging-img" style="right: 20px; top: 340px;" src="6.JPEG">
+<img id="side6" class="hanging-img" style="right: 20px; top: 540px;" src="3.JPEG">
+
+<h1 id="mainTitle">Will you be my Valentine?</h1>
+
+<div class="button-row" id="buttonRow">
+    <button id="yesBtn">Yes</button>
+    <button id="noBtn">No</button>
+</div>
+
+<div id="message">I love you Barani Jaan ❤️</div>
+<div id="valentineWish">Happy Valentine’s Day ❤️</div>
+
+<img id="photo" src="couple2.JPG" alt="Our Photo">
+
+<script>
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const mainTitle = document.getElementById("mainTitle");
+    const buttonRow = document.getElementById("buttonRow");
+    const message = document.getElementById("message");
+    const valentineWish = document.getElementById("valentineWish");
+    const photo = document.getElementById("photo");
+
+    /* ⭐ FIXED NO BUTTON MOVEMENT */
+    noBtn.addEventListener("mouseover", () => {
+        const btnWidth = noBtn.offsetWidth;
+        const btnHeight = noBtn.offsetHeight;
+
+        const maxX = window.innerWidth - btnWidth - 20;
+        const maxY = window.innerHeight - btnHeight - 20;
+
+        const x = Math.random() * maxX;
+        const y = Math.random() * maxY;
+
+        noBtn.style.position = "absolute";
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+    });
+
+    yesBtn.addEventListener("click", () => {
+        document.getElementById("bgMusic").play();
+
+        mainTitle.style.display = "none";
+        buttonRow.style.display = "none";
+
+        message.style.opacity = "1";
+        valentineWish.style.opacity = "1";
+        photo.style.opacity = "1";
+
+        startHearts();
+		// Show garlands
+document.getElementById("garlandLeft").style.opacity = "1";
+document.getElementById("garlandRight").style.opacity = "1";
+
+// Show hanging images
+document.querySelectorAll(".hanging-img").forEach(img => {
+    img.style.display = "block";
+});
+    });
+
+    function startHearts() {
+        setInterval(() => {
+            const heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.innerHTML = "❤️";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.fontSize = (15 + Math.random() * 20) + "px";
+            heart.style.animationDuration = (8 + Math.random() * 6) + "s";
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 15000);
+        }, 500);
+    }
+</script>
+
+</body>
+</html>
